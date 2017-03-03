@@ -91,6 +91,27 @@ model.jsonModel = {
           {
             name: "alfresco/lists/views/AlfListView",
             config: {
+              widgetsForHeader: [ //HEADER WIDGETS
+                {
+                  name: "alfresco/lists/views/layouts/HeaderCell",
+                  config: {
+                    label: "Group Identifier"
+                  }
+                },
+                {
+                  name: "alfresco/lists/views/layouts/HeaderCell",
+                  config: {
+                    label: "Display Name"
+                  }
+                },
+                {
+                  name: "alfresco/lists/views/layouts/HeaderCell",
+                  config: {
+                    label: "Actions"
+                  }
+                }
+              ],
+              additionalCssClasses: "bordered", //HEADER STYLING
               widgets: [
                 {
                   name: "alfresco/lists/views/layouts/Row",
@@ -99,12 +120,13 @@ model.jsonModel = {
                       {
                         name: "alfresco/lists/views/layouts/Cell",
                         config: {
+                          additionalCssClasses: "mediumpad",
                           widgets: [
                             {
                               name: "alfresco/renderers/PropertyLink",
                               config: 
                               {
-                                propertyToRender: "displayName",
+                                propertyToRender: "shortName",
                                 useCurrentItemAsPayload: false,
                                 publishTopic: "ALF_CREATE_DIALOG_REQUEST",
                                 publishPayloadType: "PROCESS",
@@ -174,6 +196,7 @@ model.jsonModel = {
                                                       {
                                                         name: "alfresco/lists/views/layouts/Cell", //USERS LIST
                                                         config: {
+                                                          additionalCssClasses: "mediumpad",
                                                           widgets: [
                                                             {
                                                               name: "alfresco/renderers/Property",
@@ -203,6 +226,7 @@ model.jsonModel = {
                                                         name: "alfresco/lists/views/layouts/Cell",
                                                         config: 
                                                         {
+                                                          additionalCssClasses: "mediumpad",
                                                           widgets: 
                                                           [
 
@@ -226,8 +250,39 @@ model.jsonModel = {
                         }
                       },
                       {
+                        name: "alfresco/lists/views/layouts/Cell",
+                        config: 
+                        {
+                          additionalCssClasses: "mediumpad",
+                          widgets: 
+                          [
+                            {
+                              name: "alfresco/renderers/InlineEditProperty",
+                              config: 
+                              {
+                                propertyToRender: "displayName",
+                                refreshCurrentItem: true,
+                                requirementConfig: 
+                                {
+                                  initialValue: true
+                                },
+                                publishTopic: "ALF_CRUD_DELETE",
+                                publishPayloadType: "PROCESS",
+                                publishPayloadModifiers: ["processCurrentItemTokens"],
+                                publishPayloadItemMixin: false,
+                                publishPayload: {
+                                  url: "api/groups/{shortName}",
+                                  noRefresh: true
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
                          name: "alfresco/lists/views/layouts/Cell", //GROUPS
                          config: {
+                          additionalCssClasses: "mediumpad",
                             widgets: [
                                {
                                   name: "alfresco/renderers/PublishAction",
