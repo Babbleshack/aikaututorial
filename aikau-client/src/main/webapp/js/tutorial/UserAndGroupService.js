@@ -15,6 +15,7 @@ function(declare, Core, lang, CoreXhr, AlfConstants, array, AlfDialog) {
       this.alfSubscribe("TUTORIAL_REMOVE_USER_FROM_GROUP", lang.hitch(this, "removeUserFromGroup"));
       this.alfSubscribe("TUTORIAL_GET_GROUPS", lang.hitch(this, "getGroups"));
       this.alfSubscribe("TUTORIAL_DELETE_GROUPS", lang.hitch(this, this.deleteGroups));
+      // this.alfSubscribe("TUTORIAL_GET_USERS"), lang.hitch(this, this.getusers);
     },
 
     createGroup: function tutorial_UserAndGroupService__createGroup(payload) {
@@ -52,6 +53,8 @@ function(declare, Core, lang, CoreXhr, AlfConstants, array, AlfDialog) {
         callbackScope: this
       });
     },
+
+
 
     getGroups: function tutorial_UserAndGroupService__getGroups(payload) {
       var alfTopic = 
@@ -127,12 +130,31 @@ function(declare, Core, lang, CoreXhr, AlfConstants, array, AlfDialog) {
         });
     },
 
+    getUsers: function tutorial_UserAngGroupService__getUsers(payload) {
+      this.serviceXhr({
+        url: AlfConstants.PROXY_URI + "api/people",
+        method: "GET",
+        alfTopic: alfTopic,
+
+      });
+    },
+
+    // createUsers: function tutorial_UserAndGroupService__createUser(payload) {
+    //   var username = payload.userName;
+    //   this.serviceXhr({
+    //     url: AlfConstants.PROXY_URI + "api/people/" + username,
+    //     method: "PUT",
+    //     alfTopic: alfTopic
+    //   });
+    // }
+
     onSuccess: function tutorial_UserAndGroupService_onSuccess(response, originalRequestConfig) {
       var pubSubScope = lang.getObject("data.pubSubScope", false, originalRequestConfig);
      if (pubSubScope == null)
      {
         pubSubScope = "";
      }
+     //reload alflist on scope 'pubSubScope'
      this.alfPublish(pubSubScope + "ALF_DOCLIST_RELOAD_DATA");
       //on form submission succes publish to 'ALF_DOCLIST_RELOAD_DATA' topic, causing AlfListView to reload data.
       // this.alfPublish("ALF_DOCLIST_RELOAD_DATA", {});

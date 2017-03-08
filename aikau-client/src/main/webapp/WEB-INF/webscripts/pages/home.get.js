@@ -75,6 +75,7 @@ model.jsonModel = {
                  name: "tutorial/Label",
                  config: {
                    additionalCssClasses: "large",
+                   
                    widgets: [
                      {
                        name: "alfresco/html/Label",
